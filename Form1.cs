@@ -120,7 +120,7 @@ namespace BTC_Swingtrade_Simulator
             }
 
             moneyTracker = new MoneyTracker(10);
-            tradingBot = new TradingBot(48, 40, 8, 8);
+            tradingBot = new TradingBot(48, 40, 8);
             infoLabelHandler = new InfoLabelHandler(5000);
 
             tradingBot.TradeOccurred += TradingBot_TradeOccurred;
@@ -149,8 +149,7 @@ namespace BTC_Swingtrade_Simulator
 
             HistoryChart.Series["BTC Value"].Color = DEFAULT_FORECOLOR_DARK;
             HistoryChart.Series["Short SMA"].Color = SHORT_SMA_COLOR_DARK;
-            HistoryChart.Series["Upper Long SMA"].Color = LONG_SMA_COLOR_DARK;
-            HistoryChart.Series["Lower Long SMA"].Color = LONG_SMA_COLOR_DARK;
+            HistoryChart.Series["Long SMA"].Color = LONG_SMA_COLOR_DARK;
             HistoryChart.Series["SimValue"].Color = LIVE_BALANCE_COLOR_DARK;
             HistoryChart.Series["Buy Actions"].Color = BUY_COLOR;
             HistoryChart.Series["Sell Actions"].Color = SELL_COLOR;
@@ -257,8 +256,7 @@ namespace BTC_Swingtrade_Simulator
 
             if (!double.IsInfinity(tradingBot.LongSMA.get()))
             {
-                HistoryChart.Series["Upper Long SMA"].Points.AddXY(HistoryX, tradingBot.LongSMA.get() + tradingBot.upperSmaOffset);
-                HistoryChart.Series["Lower Long SMA"].Points.AddXY(HistoryX, tradingBot.LongSMA.get() - tradingBot.lowerSmaOffset);
+                HistoryChart.Series["Long SMA"].Points.AddXY(HistoryX, tradingBot.LongSMA.get() + tradingBot.SmaOffset);
             }
             if (!double.IsInfinity(tradingBot.ShortSMA.get()))
                 HistoryChart.Series["Short SMA"].Points.AddXY(HistoryX, tradingBot.ShortSMA.get());
