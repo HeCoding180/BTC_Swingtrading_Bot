@@ -32,12 +32,15 @@ namespace BTC_Swingtrade_Simulator
         public readonly Color LIVE_BALANCE_COLOR = Color.FromArgb(152, 22, 217);
         public readonly Color LIVE_BALANCE_COLOR_DARK = Color.FromArgb(85, 41, 107);
 
+        public readonly Color BUY_COLOR = Color.FromArgb(0, 255, 0);
+        public readonly Color SELL_COLOR = Color.FromArgb(255, 0, 0);
+
         bool BTC_InitValue = true;
         bool AbortSimulation = false;
 
         bool NotificationsEnabled = false;
 
-        int HistoryX = 0;
+        int HistoryX = -1;
 
         MoneyTracker moneyTracker;
         ReadBTC_Value BTCReader;
@@ -49,6 +52,7 @@ namespace BTC_Swingtrade_Simulator
         {
             InitializeComponent();
 
+            // Install font
             using (Font checkFont = new Font("Open Sans Light", 9.75f, FontStyle.Regular, GraphicsUnit.Point))
             {
                 if (checkFont.Name != "Open Sans Light")
@@ -116,7 +120,7 @@ namespace BTC_Swingtrade_Simulator
             }
 
             moneyTracker = new MoneyTracker(10);
-            tradingBot = new TradingBot(30, 15);
+            tradingBot = new TradingBot(48, 40, 8, 8);
             infoLabelHandler = new InfoLabelHandler(5000);
 
             tradingBot.TradeOccurred += TradingBot_TradeOccurred;
@@ -145,8 +149,11 @@ namespace BTC_Swingtrade_Simulator
 
             HistoryChart.Series["BTC Value"].Color = DEFAULT_FORECOLOR_DARK;
             HistoryChart.Series["Short SMA"].Color = SHORT_SMA_COLOR_DARK;
-            HistoryChart.Series["Long SMA"].Color = LONG_SMA_COLOR_DARK;
+            HistoryChart.Series["Upper Long SMA"].Color = LONG_SMA_COLOR_DARK;
+            HistoryChart.Series["Lower Long SMA"].Color = LONG_SMA_COLOR_DARK;
             HistoryChart.Series["SimValue"].Color = LIVE_BALANCE_COLOR_DARK;
+            HistoryChart.Series["Buy Actions"].Color = BUY_COLOR;
+            HistoryChart.Series["Sell Actions"].Color = SELL_COLOR;
 
             //Set MainPannel Objects' BackColor to Transparent
             BTCWorthLabel.Parent = HistoryChart;
@@ -241,19 +248,22 @@ namespace BTC_Swingtrade_Simulator
 
         private void TradingBot_SMAChangeOccurred(object sender, SMAUpdateEventArgs e)
         {
+            HistoryX++;
+
             lLong.Text = tradingBot.LongSMA.ToString();
             lShort.Text = tradingBot.ShortSMA.ToString();
 
             HistoryChart.Series["BTC Value"].Points.AddXY(HistoryX, moneyTracker.BTCValue);
 
+            if (!double.IsInfinity(tradingBot.LongSMA.get()))
+            {
+                HistoryChart.Series["Upper Long SMA"].Points.AddXY(HistoryX, tradingBot.LongSMA.get() + tradingBot.upperSmaOffset);
+                HistoryChart.Series["Lower Long SMA"].Points.AddXY(HistoryX, tradingBot.LongSMA.get() - tradingBot.lowerSmaOffset);
+            }
             if (!double.IsInfinity(tradingBot.ShortSMA.get()))
                 HistoryChart.Series["Short SMA"].Points.AddXY(HistoryX, tradingBot.ShortSMA.get());
-            if (!double.IsInfinity(tradingBot.LongSMA.get()))
-                HistoryChart.Series["Long SMA"].Points.AddXY(HistoryX, tradingBot.LongSMA.get());
 
             HistoryChart.Series["SimValue"].Points.AddXY(HistoryX, moneyTracker.GetTrackerValue());
-
-            HistoryX++;
         }
         private void TradingBot_TradeOccurred(object sender, TradingResultEventArgs e)
         {
@@ -265,6 +275,7 @@ namespace BTC_Swingtrade_Simulator
                     {
                         infoLabelHandler.setInfo(e.Amount + " USD were traded into BTC");
                         LogTradeDir = TradingDirection.Buy;
+                        HistoryChart.Series["Buy Actions"].Points.AddXY(HistoryX, moneyTracker.BTCValue);
                     }
                     else if (e.Amount == 0.0f)
                         infoLabelHandler.setInfo("Insufficient Funds to Buy BTC");
@@ -276,6 +287,7 @@ namespace BTC_Swingtrade_Simulator
                     {
                         infoLabelHandler.setInfo(e.Amount + " BTC were traded into USD");
                         LogTradeDir = TradingDirection.Sell;
+                        HistoryChart.Series["Sell Actions"].Points.AddXY(HistoryX, moneyTracker.BTCValue);
                     }
                     else if (e.Amount == 0.0f)
                         infoLabelHandler.setInfo("Insufficient Funds to Sell BTC");

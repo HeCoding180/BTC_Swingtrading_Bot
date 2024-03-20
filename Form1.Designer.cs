@@ -29,11 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.MainPannel = new System.Windows.Forms.Panel();
             this.timeLabel = new System.Windows.Forms.Label();
             this.lLiveBalanceWorth = new System.Windows.Forms.Label();
@@ -49,13 +52,13 @@
             this.BTCWorthChangeLabel = new System.Windows.Forms.Label();
             this.InfoBar = new System.Windows.Forms.Label();
             this.BTCWorthLabel = new System.Windows.Forms.Label();
+            this.HistoryChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.lTitle = new System.Windows.Forms.Label();
             this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.minimizeButton = new System.Windows.Forms.Button();
             this.bClose = new System.Windows.Forms.Button();
             this.TimeDisplayTimer = new System.Windows.Forms.Timer(this.components);
             this.notificationButton = new System.Windows.Forms.Button();
-            this.HistoryChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.MainPannel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HistoryChart)).BeginInit();
             this.SuspendLayout();
@@ -251,6 +254,78 @@
             this.BTCWorthLabel.Text = "00000.0000$";
             this.BTCWorthLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // HistoryChart
+            // 
+            this.HistoryChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.HistoryChart.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.HistoryChart.BorderlineColor = System.Drawing.SystemColors.ControlDark;
+            chartArea1.AxisX.IsMarginVisible = false;
+            chartArea1.AxisX.IsMarksNextToAxis = false;
+            chartArea1.AxisX.LabelStyle.Enabled = false;
+            chartArea1.AxisX.LineWidth = 0;
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.AxisX.MajorTickMark.Enabled = false;
+            chartArea1.AxisX2.MajorGrid.Enabled = false;
+            chartArea1.AxisY.IsStartedFromZero = false;
+            chartArea1.AxisY.LabelStyle.Enabled = false;
+            chartArea1.AxisY.LineWidth = 0;
+            chartArea1.AxisY.MajorGrid.Enabled = false;
+            chartArea1.AxisY.MajorTickMark.Enabled = false;
+            chartArea1.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
+            chartArea1.AxisY2.InterlacedColor = System.Drawing.Color.White;
+            chartArea1.AxisY2.IsStartedFromZero = false;
+            chartArea1.AxisY2.MajorGrid.Enabled = false;
+            chartArea1.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            chartArea1.BorderWidth = 0;
+            chartArea1.InnerPlotPosition.Auto = false;
+            chartArea1.InnerPlotPosition.Height = 100F;
+            chartArea1.InnerPlotPosition.Width = 100F;
+            chartArea1.Name = "HistoryChart";
+            chartArea1.Position.Auto = false;
+            chartArea1.Position.Height = 100F;
+            chartArea1.Position.Width = 100F;
+            this.HistoryChart.ChartAreas.Add(chartArea1);
+            this.HistoryChart.Location = new System.Drawing.Point(0, 0);
+            this.HistoryChart.Margin = new System.Windows.Forms.Padding(0);
+            this.HistoryChart.Name = "HistoryChart";
+            this.HistoryChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
+            series1.ChartArea = "HistoryChart";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Color = System.Drawing.Color.DodgerBlue;
+            series1.Name = "BTC Value";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series1.YValuesPerPoint = 4;
+            series2.ChartArea = "HistoryChart";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Name = "Upper Long SMA";
+            series3.ChartArea = "HistoryChart";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Name = "Short SMA";
+            series4.ChartArea = "HistoryChart";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series4.Name = "Lower Long SMA";
+            series5.ChartArea = "HistoryChart";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series5.Name = "SimValue";
+            series5.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
+            series6.ChartArea = "HistoryChart";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series6.Name = "Sell Actions";
+            series7.ChartArea = "HistoryChart";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series7.Name = "Buy Actions";
+            this.HistoryChart.Series.Add(series1);
+            this.HistoryChart.Series.Add(series2);
+            this.HistoryChart.Series.Add(series3);
+            this.HistoryChart.Series.Add(series4);
+            this.HistoryChart.Series.Add(series5);
+            this.HistoryChart.Series.Add(series6);
+            this.HistoryChart.Series.Add(series7);
+            this.HistoryChart.Size = new System.Drawing.Size(798, 473);
+            this.HistoryChart.TabIndex = 17;
+            // 
             // lTitle
             // 
             this.lTitle.AutoSize = true;
@@ -321,66 +396,6 @@
             this.notificationButton.TabStop = false;
             this.notificationButton.UseVisualStyleBackColor = false;
             this.notificationButton.Click += new System.EventHandler(this.infoButton_Click);
-            // 
-            // HistoryChart
-            // 
-            this.HistoryChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.HistoryChart.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.HistoryChart.BorderlineColor = System.Drawing.SystemColors.ControlDark;
-            chartArea2.AxisX.IsMarginVisible = false;
-            chartArea2.AxisX.IsMarksNextToAxis = false;
-            chartArea2.AxisX.LabelStyle.Enabled = false;
-            chartArea2.AxisX.LineWidth = 0;
-            chartArea2.AxisX.MajorGrid.Enabled = false;
-            chartArea2.AxisX.MajorTickMark.Enabled = false;
-            chartArea2.AxisX2.MajorGrid.Enabled = false;
-            chartArea2.AxisY.IsStartedFromZero = false;
-            chartArea2.AxisY.LabelStyle.Enabled = false;
-            chartArea2.AxisY.LineWidth = 0;
-            chartArea2.AxisY.MajorGrid.Enabled = false;
-            chartArea2.AxisY.MajorTickMark.Enabled = false;
-            chartArea2.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
-            chartArea2.AxisY2.InterlacedColor = System.Drawing.Color.White;
-            chartArea2.AxisY2.IsStartedFromZero = false;
-            chartArea2.AxisY2.MajorGrid.Enabled = false;
-            chartArea2.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            chartArea2.BorderWidth = 0;
-            chartArea2.InnerPlotPosition.Auto = false;
-            chartArea2.InnerPlotPosition.Height = 100F;
-            chartArea2.InnerPlotPosition.Width = 100F;
-            chartArea2.Name = "HistoryChart";
-            chartArea2.Position.Auto = false;
-            chartArea2.Position.Height = 100F;
-            chartArea2.Position.Width = 100F;
-            this.HistoryChart.ChartAreas.Add(chartArea2);
-            this.HistoryChart.Location = new System.Drawing.Point(0, 0);
-            this.HistoryChart.Margin = new System.Windows.Forms.Padding(0);
-            this.HistoryChart.Name = "HistoryChart";
-            this.HistoryChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
-            series5.ChartArea = "HistoryChart";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series5.Color = System.Drawing.Color.DodgerBlue;
-            series5.Name = "BTC Value";
-            series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series5.YValuesPerPoint = 4;
-            series6.ChartArea = "HistoryChart";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series6.Name = "Short SMA";
-            series7.ChartArea = "HistoryChart";
-            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series7.Name = "Long SMA";
-            series8.ChartArea = "HistoryChart";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series8.Name = "SimValue";
-            series8.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
-            this.HistoryChart.Series.Add(series5);
-            this.HistoryChart.Series.Add(series6);
-            this.HistoryChart.Series.Add(series7);
-            this.HistoryChart.Series.Add(series8);
-            this.HistoryChart.Size = new System.Drawing.Size(798, 473);
-            this.HistoryChart.TabIndex = 17;
             // 
             // Form1
             // 

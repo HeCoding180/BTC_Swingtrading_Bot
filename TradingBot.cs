@@ -89,6 +89,15 @@ namespace BTC_Swingtrade_Simulator
 
             return comparisonResult;
         }
+        public static ComparisonResult getSMAComparisonResult(SMA smaA, SMA smaB, int offsetA, int offsetB)
+        {
+            ComparisonResult comparisonResult;
+            if ((smaA.get() + offsetA) > (smaB.get() + offsetB)) comparisonResult = ComparisonResult.greater;
+            else if ((smaA.get() + offsetA) < (smaB.get() + offsetB)) comparisonResult = ComparisonResult.less;
+            else comparisonResult = ComparisonResult.equal;
+
+            return comparisonResult;
+        }
 
         public static bool operator <(SMA smaA, SMA smaB)
         {
@@ -124,19 +133,26 @@ namespace BTC_Swingtrade_Simulator
         public SMA LongSMA;
         public SMA ShortSMA;
 
-        private ComparisonResult prevComparisonResult;
+        public int upperSmaOffset;
+        public int lowerSmaOffset;
+
+        private ComparisonResult prevUpperComparisonResult;
+        private ComparisonResult prevLowerComparisonResult;
 
         public double LastBuyTrackerValue { private set; get; }
 
         public double TransactionCooldown { private set; get; }
         public double TransactionCooldown_Duration { private set; get; }
 
-        public TradingBot(int nLongSMA, int nShortSMA)
+        public TradingBot(int nLongSMA, int nShortSMA, int buyOffset, int sellOffset)
         {
             if (nLongSMA <= nShortSMA) throw new InvalidOperationException("the Long SMA Count must be higher than the Low SMA Count");
 
             LongSMA = new SMA(nLongSMA);
             ShortSMA = new SMA(nShortSMA);
+
+            upperSmaOffset = buyOffset;
+            lowerSmaOffset = sellOffset;
 
             TransactionCooldown = 0;
             TransactionCooldown_Duration = LongSMA.length;
@@ -161,26 +177,6 @@ namespace BTC_Swingtrade_Simulator
             handler(this, smaUpdateEvArgs);
         }
 
-        private TradingDirection DecideTradingAction()
-        {
-            TradingDirection returnAction;
-            ComparisonResult liveComparisonResult = SMA.getSMAComparisonResult(ShortSMA, LongSMA);
-
-            if (TransactionCooldown < TransactionCooldown_Duration)
-                returnAction = TradingDirection.Cooldown;
-            else if ((prevComparisonResult == ComparisonResult.less) && (liveComparisonResult == ComparisonResult.greater))
-                returnAction = TradingDirection.Buy;
-            else if ((prevComparisonResult == ComparisonResult.greater) && (liveComparisonResult == ComparisonResult.less))
-                returnAction = TradingDirection.Sell;
-            else
-                returnAction = TradingDirection.NoAction;
-
-            if(liveComparisonResult != ComparisonResult.equal)
-                prevComparisonResult = liveComparisonResult;
-
-            return returnAction;
-        }
-
         public void RunAlgorythm(double NewBtcValue, ref MoneyTracker BalanceTracker)
         {
             LongSMA.refresh(NewBtcValue);
@@ -188,16 +184,41 @@ namespace BTC_Swingtrade_Simulator
 
             InvokeSMAUpdateEvent();
 
-            //CalculateSMAValues
-            TradingDirection tradingAction = DecideTradingAction();
+            //Decide on trading action
+            TradingDirection tradingAction;
 
-            if (tradingAction == TradingDirection.Cooldown)
+            ComparisonResult liveUpperComparisonResult = SMA.getSMAComparisonResult(ShortSMA, LongSMA, 0, upperSmaOffset);
+            ComparisonResult liveLowerComparisonResult = SMA.getSMAComparisonResult(ShortSMA, LongSMA, 0, -lowerSmaOffset);
+
+            if (TransactionCooldown < TransactionCooldown_Duration)
             {
+                // Cooldown
                 TransactionCooldown++;
                 InvokeTradeEvent(TradingDirection.Cooldown, (double)(TransactionCooldown_Duration - TransactionCooldown));
             }
-            else if (tradingAction == TradingDirection.Sell)
+            else if ((prevUpperComparisonResult == ComparisonResult.less) && (liveUpperComparisonResult == ComparisonResult.greater))
             {
+                // Buy
+                if (BalanceTracker.USD_Balance > 0)
+                {
+                    InvokeTradeEvent(TradingDirection.Buy, BalanceTracker.USD_Balance);
+
+                    //Buy the whole USD balance
+                    BalanceTracker.BuyInUSD(BalanceTracker.USD_Balance);
+
+                    LastBuyTrackerValue = BalanceTracker.GetTrackerValue();
+
+                    //TransactionCooldown = 0;
+                    //TransactionCooldown_Duration = ShortSMA.length;
+                }
+                else
+                {
+                    InvokeTradeEvent(TradingDirection.Buy, 0.0f);
+                }
+            }
+            else if ((prevUpperComparisonResult == ComparisonResult.greater) && (liveUpperComparisonResult == ComparisonResult.less))
+            {
+                // Sell
                 if (BalanceTracker.BTC_Balance > 0)
                 {
                     //if (LastBuyTrackerValue < BalanceTracker.GetTrackerValue())
@@ -220,29 +241,17 @@ namespace BTC_Swingtrade_Simulator
                     InvokeTradeEvent(TradingDirection.Sell, 0.0f);
                 }
             }
-            else if (tradingAction == TradingDirection.Buy)
-            {
-                if (BalanceTracker.USD_Balance > 0)
-                {
-                    InvokeTradeEvent(TradingDirection.Buy, BalanceTracker.USD_Balance);
-
-                    //Buy the whole USD balance
-                    BalanceTracker.BuyInUSD(BalanceTracker.USD_Balance);
-
-                    LastBuyTrackerValue = BalanceTracker.GetTrackerValue();
-
-                    //TransactionCooldown = 0;
-                    //TransactionCooldown_Duration = ShortSMA.length;
-                }
-                else
-                {
-                    InvokeTradeEvent(TradingDirection.Buy, 0.0f);
-                }
-            }
             else
             {
+                // No action
                 InvokeTradeEvent(TradingDirection.NoAction, 0.0f);
             }
+
+            if (liveUpperComparisonResult != ComparisonResult.equal)
+                prevUpperComparisonResult = liveUpperComparisonResult;
+
+            if (liveLowerComparisonResult != ComparisonResult.equal)
+                prevLowerComparisonResult = liveUpperComparisonResult;
         }
     }
 }
