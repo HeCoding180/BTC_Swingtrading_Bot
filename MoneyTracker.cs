@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace BTC_Swingtrade_Simulator
 {
-    class MoneyTracker
+    public class MoneyTracker
     {
         public double USD_Balance { private set; get; }
         public double BTC_Balance { private set; get; }

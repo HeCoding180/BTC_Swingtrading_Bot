@@ -83,9 +83,10 @@
             this.MainPannel.Controls.Add(this.InfoBar);
             this.MainPannel.Controls.Add(this.BTCWorthLabel);
             this.MainPannel.Controls.Add(this.HistoryChart);
-            this.MainPannel.Location = new System.Drawing.Point(1, 26);
+            this.MainPannel.Location = new System.Drawing.Point(2, 40);
+            this.MainPannel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MainPannel.Name = "MainPannel";
-            this.MainPannel.Size = new System.Drawing.Size(798, 473);
+            this.MainPannel.Size = new System.Drawing.Size(1197, 728);
             this.MainPannel.TabIndex = 0;
             // 
             // timeLabel
@@ -93,9 +94,10 @@
             this.timeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.timeLabel.AutoSize = true;
             this.timeLabel.Font = new System.Drawing.Font("Open Sans Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.timeLabel.Location = new System.Drawing.Point(673, 450);
+            this.timeLabel.Location = new System.Drawing.Point(1010, 692);
+            this.timeLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.timeLabel.Name = "timeLabel";
-            this.timeLabel.Size = new System.Drawing.Size(122, 19);
+            this.timeLabel.Size = new System.Drawing.Size(191, 28);
             this.timeLabel.TabIndex = 16;
             this.timeLabel.Text = "00.00.0000 00:00:00";
             this.timeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -105,9 +107,10 @@
             this.lLiveBalanceWorth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lLiveBalanceWorth.AutoSize = true;
             this.lLiveBalanceWorth.Font = new System.Drawing.Font("Open Sans Light", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lLiveBalanceWorth.Location = new System.Drawing.Point(11, 380);
+            this.lLiveBalanceWorth.Location = new System.Drawing.Point(16, 585);
+            this.lLiveBalanceWorth.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lLiveBalanceWorth.Name = "lLiveBalanceWorth";
-            this.lLiveBalanceWorth.Size = new System.Drawing.Size(76, 42);
+            this.lLiveBalanceWorth.Size = new System.Drawing.Size(112, 63);
             this.lLiveBalanceWorth.TabIndex = 15;
             this.lLiveBalanceWorth.Text = "0.0$";
             this.lLiveBalanceWorth.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -117,9 +120,10 @@
             this.LliveBalance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LliveBalance.AutoSize = true;
             this.LliveBalance.Font = new System.Drawing.Font("Open Sans Light", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LliveBalance.Location = new System.Drawing.Point(11, 349);
+            this.LliveBalance.Location = new System.Drawing.Point(16, 537);
+            this.LliveBalance.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LliveBalance.Name = "LliveBalance";
-            this.LliveBalance.Size = new System.Drawing.Size(136, 31);
+            this.LliveBalance.Size = new System.Drawing.Size(205, 46);
             this.LliveBalance.TabIndex = 13;
             this.LliveBalance.Text = "Live Balance:";
             this.LliveBalance.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -129,9 +133,10 @@
             this.lShort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lShort.AutoSize = true;
             this.lShort.Font = new System.Drawing.Font("Open Sans Light", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lShort.Location = new System.Drawing.Point(104, 307);
+            this.lShort.Location = new System.Drawing.Point(156, 472);
+            this.lShort.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lShort.Name = "lShort";
-            this.lShort.Size = new System.Drawing.Size(35, 42);
+            this.lShort.Size = new System.Drawing.Size(52, 63);
             this.lShort.TabIndex = 12;
             this.lShort.Text = "0";
             this.lShort.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -141,9 +146,10 @@
             this.lLong.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lLong.AutoSize = true;
             this.lLong.Font = new System.Drawing.Font("Open Sans Light", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lLong.Location = new System.Drawing.Point(104, 265);
+            this.lLong.Location = new System.Drawing.Point(156, 408);
+            this.lLong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lLong.Name = "lLong";
-            this.lLong.Size = new System.Drawing.Size(35, 42);
+            this.lLong.Size = new System.Drawing.Size(52, 63);
             this.lLong.TabIndex = 11;
             this.lLong.Text = "0";
             this.lLong.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -153,9 +159,10 @@
             this.LDispShort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LDispShort.AutoSize = true;
             this.LDispShort.Font = new System.Drawing.Font("Open Sans Light", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LDispShort.Location = new System.Drawing.Point(11, 307);
+            this.LDispShort.Location = new System.Drawing.Point(16, 472);
+            this.LDispShort.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LDispShort.Name = "LDispShort";
-            this.LDispShort.Size = new System.Drawing.Size(96, 42);
+            this.LDispShort.Size = new System.Drawing.Size(145, 63);
             this.LDispShort.TabIndex = 10;
             this.LDispShort.Text = "Short:";
             this.LDispShort.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -165,9 +172,10 @@
             this.LDispLong.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LDispLong.AutoSize = true;
             this.LDispLong.Font = new System.Drawing.Font("Open Sans Light", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LDispLong.Location = new System.Drawing.Point(11, 265);
+            this.LDispLong.Location = new System.Drawing.Point(16, 408);
+            this.LDispLong.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LDispLong.Name = "LDispLong";
-            this.LDispLong.Size = new System.Drawing.Size(89, 42);
+            this.LDispLong.Size = new System.Drawing.Size(135, 63);
             this.LDispLong.TabIndex = 9;
             this.LDispLong.Text = "Long:";
             this.LDispLong.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -177,9 +185,10 @@
             this.LIntegrals.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LIntegrals.AutoSize = true;
             this.LIntegrals.Font = new System.Drawing.Font("Open Sans Light", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LIntegrals.Location = new System.Drawing.Point(11, 234);
+            this.LIntegrals.Location = new System.Drawing.Point(16, 360);
+            this.LIntegrals.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LIntegrals.Name = "LIntegrals";
-            this.LIntegrals.Size = new System.Drawing.Size(248, 31);
+            this.LIntegrals.Size = new System.Drawing.Size(376, 46);
             this.LIntegrals.TabIndex = 8;
             this.LIntegrals.Text = "Simple Moving Averages:";
             this.LIntegrals.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -189,9 +198,10 @@
             this.lBTCBal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lBTCBal.AutoSize = true;
             this.lBTCBal.Font = new System.Drawing.Font("Open Sans Light", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lBTCBal.Location = new System.Drawing.Point(11, 192);
+            this.lBTCBal.Location = new System.Drawing.Point(16, 295);
+            this.lBTCBal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lBTCBal.Name = "lBTCBal";
-            this.lBTCBal.Size = new System.Drawing.Size(176, 42);
+            this.lBTCBal.Size = new System.Drawing.Size(261, 63);
             this.lBTCBal.TabIndex = 7;
             this.lBTCBal.Text = "BTC: 0.0011";
             this.lBTCBal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -201,9 +211,10 @@
             this.lUSDBal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lUSDBal.AutoSize = true;
             this.lUSDBal.Font = new System.Drawing.Font("Open Sans Light", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lUSDBal.Location = new System.Drawing.Point(11, 150);
+            this.lUSDBal.Location = new System.Drawing.Point(16, 231);
+            this.lUSDBal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lUSDBal.Name = "lUSDBal";
-            this.lUSDBal.Size = new System.Drawing.Size(165, 42);
+            this.lUSDBal.Size = new System.Drawing.Size(245, 63);
             this.lUSDBal.TabIndex = 6;
             this.lUSDBal.Text = "USD: 50.0$";
             this.lUSDBal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -213,9 +224,10 @@
             this.lBalances.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lBalances.AutoSize = true;
             this.lBalances.Font = new System.Drawing.Font("Open Sans Light", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lBalances.Location = new System.Drawing.Point(11, 119);
+            this.lBalances.Location = new System.Drawing.Point(16, 183);
+            this.lBalances.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lBalances.Name = "lBalances";
-            this.lBalances.Size = new System.Drawing.Size(168, 31);
+            this.lBalances.Size = new System.Drawing.Size(255, 46);
             this.lBalances.TabIndex = 5;
             this.lBalances.Text = "Virtual Balances:";
             this.lBalances.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -224,9 +236,10 @@
             // 
             this.BTCWorthChangeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BTCWorthChangeLabel.Font = new System.Drawing.Font("Open Sans Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BTCWorthChangeLabel.Location = new System.Drawing.Point(11, 96);
+            this.BTCWorthChangeLabel.Location = new System.Drawing.Point(16, 148);
+            this.BTCWorthChangeLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.BTCWorthChangeLabel.Name = "BTCWorthChangeLabel";
-            this.BTCWorthChangeLabel.Size = new System.Drawing.Size(753, 23);
+            this.BTCWorthChangeLabel.Size = new System.Drawing.Size(1130, 35);
             this.BTCWorthChangeLabel.TabIndex = 4;
             this.BTCWorthChangeLabel.Text = "+0.00%";
             this.BTCWorthChangeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -236,9 +249,10 @@
             this.InfoBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.InfoBar.AutoSize = true;
             this.InfoBar.Font = new System.Drawing.Font("Open Sans Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.InfoBar.Location = new System.Drawing.Point(3, 450);
+            this.InfoBar.Location = new System.Drawing.Point(4, 692);
+            this.InfoBar.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.InfoBar.Name = "InfoBar";
-            this.InfoBar.Size = new System.Drawing.Size(165, 19);
+            this.InfoBar.Size = new System.Drawing.Size(257, 28);
             this.InfoBar.TabIndex = 3;
             this.InfoBar.Text = "Init, retrieving bitcoin value";
             // 
@@ -246,9 +260,10 @@
             // 
             this.BTCWorthLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BTCWorthLabel.Font = new System.Drawing.Font("Open Sans Light", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BTCWorthLabel.Location = new System.Drawing.Point(11, 11);
+            this.BTCWorthLabel.Location = new System.Drawing.Point(16, 17);
+            this.BTCWorthLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.BTCWorthLabel.Name = "BTCWorthLabel";
-            this.BTCWorthLabel.Size = new System.Drawing.Size(776, 91);
+            this.BTCWorthLabel.Size = new System.Drawing.Size(1164, 140);
             this.BTCWorthLabel.TabIndex = 0;
             this.BTCWorthLabel.Text = "00000.0000$";
             this.BTCWorthLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -320,16 +335,17 @@
             this.HistoryChart.Series.Add(series4);
             this.HistoryChart.Series.Add(series5);
             this.HistoryChart.Series.Add(series6);
-            this.HistoryChart.Size = new System.Drawing.Size(798, 473);
+            this.HistoryChart.Size = new System.Drawing.Size(1197, 728);
             this.HistoryChart.TabIndex = 17;
             // 
             // lTitle
             // 
             this.lTitle.AutoSize = true;
             this.lTitle.Font = new System.Drawing.Font("Open Sans Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lTitle.Location = new System.Drawing.Point(5, 4);
+            this.lTitle.Location = new System.Drawing.Point(8, 6);
+            this.lTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lTitle.Name = "lTitle";
-            this.lTitle.Size = new System.Drawing.Size(193, 19);
+            this.lTitle.Size = new System.Drawing.Size(300, 28);
             this.lTitle.TabIndex = 2;
             this.lTitle.Text = "Bitcoin Swing Trading Simulator";
             // 
@@ -347,10 +363,11 @@
             this.minimizeButton.BackgroundImage = global::BTC_Swingtrade_Simulator.Properties.Resources.Minimize_Icon;
             this.minimizeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.minimizeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.minimizeButton.Font = new System.Drawing.Font("Open Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.minimizeButton.Location = new System.Drawing.Point(750, 1);
+            this.minimizeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.minimizeButton.Location = new System.Drawing.Point(1125, 2);
+            this.minimizeButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.minimizeButton.Name = "minimizeButton";
-            this.minimizeButton.Size = new System.Drawing.Size(24, 24);
+            this.minimizeButton.Size = new System.Drawing.Size(36, 37);
             this.minimizeButton.TabIndex = 3;
             this.minimizeButton.TabStop = false;
             this.minimizeButton.UseVisualStyleBackColor = false;
@@ -363,10 +380,11 @@
             this.bClose.BackgroundImage = global::BTC_Swingtrade_Simulator.Properties.Resources.CloseIcon_Red;
             this.bClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.bClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bClose.Font = new System.Drawing.Font("Open Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bClose.Location = new System.Drawing.Point(775, 1);
+            this.bClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bClose.Location = new System.Drawing.Point(1162, 2);
+            this.bClose.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.bClose.Name = "bClose";
-            this.bClose.Size = new System.Drawing.Size(24, 24);
+            this.bClose.Size = new System.Drawing.Size(36, 37);
             this.bClose.TabIndex = 1;
             this.bClose.TabStop = false;
             this.bClose.UseVisualStyleBackColor = false;
@@ -385,10 +403,11 @@
             this.notificationButton.BackgroundImage = global::BTC_Swingtrade_Simulator.Properties.Resources.MuteIcon;
             this.notificationButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.notificationButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.notificationButton.Font = new System.Drawing.Font("Open Sans", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.notificationButton.Location = new System.Drawing.Point(725, 1);
+            this.notificationButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.notificationButton.Location = new System.Drawing.Point(1088, 2);
+            this.notificationButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.notificationButton.Name = "notificationButton";
-            this.notificationButton.Size = new System.Drawing.Size(24, 24);
+            this.notificationButton.Size = new System.Drawing.Size(36, 37);
             this.notificationButton.TabIndex = 4;
             this.notificationButton.TabStop = false;
             this.notificationButton.UseVisualStyleBackColor = false;
@@ -396,18 +415,19 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(800, 500);
+            this.ClientSize = new System.Drawing.Size(1200, 769);
             this.Controls.Add(this.notificationButton);
             this.Controls.Add(this.minimizeButton);
             this.Controls.Add(this.lTitle);
             this.Controls.Add(this.bClose);
             this.Controls.Add(this.MainPannel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
-            this.Text = "Trading Bot Emulator";
+            this.Text = "v";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.MainPannel.ResumeLayout(false);
             this.MainPannel.PerformLayout();

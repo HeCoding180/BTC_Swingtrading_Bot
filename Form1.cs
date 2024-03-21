@@ -230,7 +230,7 @@ namespace BTC_Swingtrade_Simulator
             }
 
             moneyTracker.BTCValue = e.BTCValue;
-            tradingBot.RunAlgorythm(e.BTCValue, ref moneyTracker);
+            tradingBot.RunAlgorithm(e.BTCValue, ref moneyTracker);
 
             if(BTC_InitValue) // Initial BTC Value (Initialization Cycle)
             {

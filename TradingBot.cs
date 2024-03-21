@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BTC_Swingtrade_Simulator
@@ -18,7 +20,8 @@ namespace BTC_Swingtrade_Simulator
     {
         greater,
         less,
-        equal
+        equal,
+        unknown
     }
 
     public class TradingResultEventArgs : EventArgs
@@ -33,7 +36,13 @@ namespace BTC_Swingtrade_Simulator
         public double shortSMAValue { set; get; }
     }
 
-    class SMA
+    public class OfflineSimulationDoneEventArgs : EventArgs
+    {
+        public List<TradingStep> Trades { set; get; }
+        public double EndBalance { set; get; }
+    }
+
+    public class SMA
     {
         //public attributes
         public int length { private set; get; }
@@ -124,11 +133,67 @@ namespace BTC_Swingtrade_Simulator
             return smaA.get() != smaB.get();
         }
     }
+    
+    public class TradingStep
+    {
+        public double LongSMA;
+        public double ShortSMA;
 
-    class TradingBot
+        public MoneyTracker Balance;
+
+        public TradingDirection Action;
+
+        public TradingStep()
+        {
+            LongSMA = 0.0;
+            ShortSMA = 0.0;
+            Balance = new MoneyTracker(0);
+            Action = TradingDirection.NoAction;
+            
+        }
+        public TradingStep(double longSMA, double shortSMA, MoneyTracker balance)
+        {
+            LongSMA = longSMA;
+            ShortSMA = shortSMA;
+            Balance = balance;
+            Action = TradingDirection.NoAction;
+        }
+        public TradingStep(double longSMA, double shortSMA, MoneyTracker balance, TradingDirection tradingAction)
+        {
+            LongSMA = longSMA;
+            ShortSMA = shortSMA;
+            Balance = balance;
+            Action = tradingAction;
+        }
+    }
+
+    public class TradingBot
     {
         public event EventHandler<TradingResultEventArgs> TradeOccurred;
         public event EventHandler<SMAUpdateEventArgs> SMAChangeOccurred;
+        public event EventHandler<OfflineSimulationDoneEventArgs> OfflineSimulationDone;
+
+        private int lSmaSize;
+        private int sSmaSize;
+
+        public int LongSmaSize
+        {
+            set
+            {
+                lSmaSize = value;
+                LongSMA = new SMA(value);
+            }
+            get { return lSmaSize; }
+        }
+        public int ShortSmaSize
+        {
+            set
+            {
+                sSmaSize = value;
+                ShortSMA = new SMA(value);
+            }
+            get { return sSmaSize; }
+        }
 
         public SMA LongSMA;
         public SMA ShortSMA;
@@ -137,17 +202,15 @@ namespace BTC_Swingtrade_Simulator
 
         private ComparisonResult prevComparisonResult;
 
-        public double LastBuyTrackerValue { private set; get; }
-
         public double TransactionCooldown { private set; get; }
         public double TransactionCooldown_Duration { private set; get; }
 
-        public TradingBot(int nLongSMA, int nShortSMA, int thresholdOffset)
+        public TradingBot(int longSmaSize, int shortSmaSize, int thresholdOffset)
         {
-            if (nLongSMA <= nShortSMA) throw new InvalidOperationException("the Long SMA Count must be higher than the Low SMA Count");
+            if (longSmaSize <= shortSmaSize) throw new InvalidOperationException("the Long SMA Count must be higher than the Low SMA Count");
 
-            LongSMA = new SMA(nLongSMA);
-            ShortSMA = new SMA(nShortSMA);
+            LongSmaSize = longSmaSize;
+            ShortSmaSize = shortSmaSize;
 
             SmaOffset = thresholdOffset;
 
@@ -166,15 +229,17 @@ namespace BTC_Swingtrade_Simulator
         }
         private void InvokeSMAUpdateEvent()
         {
-            SMAUpdateEventArgs smaUpdateEvArgs = new SMAUpdateEventArgs();
-            smaUpdateEvArgs.longSMAValue = LongSMA.get();
-            smaUpdateEvArgs.shortSMAValue = ShortSMA.get();
+            SMAUpdateEventArgs smaUpdateEvArgs = new SMAUpdateEventArgs
+            {
+                longSMAValue = LongSMA.get(),
+                shortSMAValue = ShortSMA.get()
+            };
 
             EventHandler<SMAUpdateEventArgs> handler = SMAChangeOccurred;
             handler(this, smaUpdateEvArgs);
         }
 
-        public void RunAlgorythm(double NewBtcValue, ref MoneyTracker BalanceTracker)
+        public void RunAlgorithm(double NewBtcValue, ref MoneyTracker BalanceTracker)
         {
             LongSMA.refresh(NewBtcValue);
             ShortSMA.refresh(NewBtcValue);
@@ -199,11 +264,6 @@ namespace BTC_Swingtrade_Simulator
 
                     //Buy the whole USD balance
                     BalanceTracker.BuyInUSD(BalanceTracker.USD_Balance);
-
-                    LastBuyTrackerValue = BalanceTracker.GetTrackerValue();
-
-                    //TransactionCooldown = 0;
-                    //TransactionCooldown_Duration = ShortSMA.length;
                 }
                 else
                 {
@@ -215,20 +275,10 @@ namespace BTC_Swingtrade_Simulator
                 // Sell
                 if (BalanceTracker.BTC_Balance > 0)
                 {
-                    //if (LastBuyTrackerValue < BalanceTracker.GetTrackerValue())
-                    //{
                     InvokeTradeEvent(TradingDirection.Sell, BalanceTracker.BTC_Balance);
 
                     //Sell the whole BTC Balance
                     BalanceTracker.SellInBTC(BalanceTracker.BTC_Balance);
-
-                    //TransactionCooldown = 0;
-                    //TransactionCooldown_Duration = ShortSMA.length;
-                    //}
-                    //else
-                    //{
-                    //    InvokeTradeEvent(TradingDirection.Sell, -1.0f);
-                    //}
                 }
                 else
                 {
@@ -243,6 +293,79 @@ namespace BTC_Swingtrade_Simulator
 
             if (liveComparisonResult != ComparisonResult.equal)
                 prevComparisonResult = liveComparisonResult;
+        }
+
+        public void StartOfflineSimulation(List<double> ValuesList, double startBalance)
+        {
+            Thread OfflineSimulationThread = new Thread(() => OfflineSimulationMethod(ValuesList, startBalance));
+            OfflineSimulationThread.Start();
+        }
+
+        private void OfflineSimulationMethod(List<double> ValuesList, double startBalance)
+        {
+            OfflineSimulationDoneEventArgs simulationValues = new OfflineSimulationDoneEventArgs();
+
+            MoneyTracker OfflineBalanceTracker = new MoneyTracker(startBalance);
+
+            ComparisonResult prevSimStepResult = ComparisonResult.unknown;
+
+            SMA OfflineLongSMA = new SMA(LongSmaSize);
+            SMA OfflineShortSMA = new SMA(ShortSmaSize);
+
+            double OfflineTransactionCooldown = 0;
+            double OfflineTransactionCooldown_Duration = LongSmaSize;
+
+            foreach (double BTC_Value in ValuesList)
+            {
+                OfflineBalanceTracker.BTCValue = BTC_Value;
+
+                OfflineLongSMA.refresh(BTC_Value);
+                OfflineShortSMA.refresh(BTC_Value);
+
+                TradingStep tradingStep = new TradingStep();
+
+                //Decide on trading action
+                ComparisonResult liveComparisonResult = SMA.getSMAComparisonResult(OfflineShortSMA, OfflineLongSMA, 0, SmaOffset);
+
+                if (OfflineTransactionCooldown < OfflineTransactionCooldown_Duration)
+                {
+                    // Cooldown
+                    OfflineTransactionCooldown++;
+                    tradingStep.Action = TradingDirection.Cooldown;
+                }
+                else if ((prevSimStepResult == ComparisonResult.less) && (liveComparisonResult == ComparisonResult.greater))
+                {
+                    // Buy
+                    tradingStep.Action = TradingDirection.Buy;
+                    if (OfflineBalanceTracker.USD_Balance > 0)
+                    {
+                        //Buy the whole USD balance
+                        OfflineBalanceTracker.BuyInUSD(OfflineBalanceTracker.USD_Balance);
+                    }
+                }
+                else if ((prevSimStepResult == ComparisonResult.greater) && (liveComparisonResult == ComparisonResult.less))
+                {
+                    // Sell
+                    tradingStep.Action = TradingDirection.Sell;
+                    if (OfflineBalanceTracker.BTC_Balance > 0)
+                    {
+                        //Sell the whole BTC Balance
+                        OfflineBalanceTracker.SellInBTC(OfflineBalanceTracker.BTC_Balance);
+                    }
+                }
+                else
+                {
+                    // No action
+                    tradingStep.Action = TradingDirection.NoAction;
+                }
+
+                if (liveComparisonResult != ComparisonResult.equal)
+                    prevSimStepResult = liveComparisonResult;
+
+                simulationValues.Trades.Add(tradingStep);
+            }
+
+            simulationValues.EndBalance = OfflineBalanceTracker.GetTrackerValue();
         }
     }
 }
