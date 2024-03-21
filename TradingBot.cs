@@ -142,7 +142,7 @@ namespace BTC_Swingtrade_Simulator
         public double TransactionCooldown { private set; get; }
         public double TransactionCooldown_Duration { private set; get; }
 
-        public TradingBot(int nLongSMA, int nShortSMA, int buyOffset, int thresholdOffset)
+        public TradingBot(int nLongSMA, int nShortSMA, int thresholdOffset)
         {
             if (nLongSMA <= nShortSMA) throw new InvalidOperationException("the Long SMA Count must be higher than the Low SMA Count");
 
